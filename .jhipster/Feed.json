@@ -1,0 +1,67 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "actions",
+            "otherEntityName": "action",
+            "otherEntityRelationshipName": "feed"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "scopeOfFeed",
+            "otherEntityName": "reaction",
+            "otherEntityRelationshipName": "feed"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "file",
+            "otherEntityName": "file",
+            "otherEntityRelationshipName": "feed"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "helpedFriends",
+            "otherEntityName": "contact",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipName": "userRegistration",
+            "otherEntityName": "userRegistration",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "userName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "matter",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "Alert",
+            "fieldValues": "RED_ALERT,ORANGE_ALERT,GREEN_ALERT"
+        },
+        {
+            "fieldName": "comments",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "createdTime",
+            "fieldType": "Instant"
+        }
+    ],
+    "changelogDate": "20180925054407",
+    "entityTableName": "feed",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "microserviceName": "RedAlert"
+}

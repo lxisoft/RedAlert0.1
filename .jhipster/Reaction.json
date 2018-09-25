@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "feed",
+            "otherEntityName": "feed",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "action",
+            "otherEntityName": "action",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "userName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "TypeOfReaction",
+            "fieldValues": "FAKE,VALID,SOLVED,PARTIALLY_SOLVED,NOT_SOLVED"
+        }
+    ],
+    "changelogDate": "20180925054409",
+    "entityTableName": "reaction",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "microserviceName": "RedAlert"
+}

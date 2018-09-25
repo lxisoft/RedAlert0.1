@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "friendName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactMail",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "contactNumber",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "immidiateFriend",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20180925054411",
+    "entityTableName": "contact",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "microserviceName": "RedAlert"
+}

@@ -1,0 +1,79 @@
+
+entity Feed {
+    userName String,
+    matter String,
+    type Alert,
+    comments String,
+    createdTime Instant
+}
+
+enum Alert {
+    RED_ALERT, ORANGE_ALERT, GREEN_ALERT 
+}
+
+
+entity Action {
+userName String,
+takenAction String,
+type ActionType,
+requestApproval Boolean,
+createdTime Instant
+}
+
+enum ActionType {
+     COMMENT, REQUEST_TO_CLOSE
+}
+
+
+entity Reaction
+{
+userName String,
+type TypeOfReaction
+} 
+
+enum TypeOfReaction {
+    FAKE, VALID, SOLVED, PARTIALLY_SOLVED, NOT_SOLVED 
+}
+
+entity UserRegistration
+{
+firstName String,
+lastName String,
+phone Long,
+email String,
+bloodGroup String,
+createdTime Instant
+} 
+entity Contact
+{
+friendName String,
+contactMail String,
+contactNumber Long,
+immidiateFriend Boolean
+}
+
+entity File
+{
+attachments Blob
+}
+
+relationship OneToMany{
+Feed{actions} to Action,
+Feed{scopeOfFeed} to Reaction,
+Action{scopeOfActions} to Reaction,
+UserRegistration{comments} to Feed,
+Feed{file} to File
+}
+
+
+
+relationship ManyToMany
+{
+Feed{helpedFriends} to Contact,
+UserRegistration{emergencyContact} to Contact
+}
+
+dto * with mapstruct
+service all with serviceImpl
+paginate * with pagination
+
