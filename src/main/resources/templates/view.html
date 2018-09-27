@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <script type="text/javascript">
+     function Expand(obj){
+      if (!obj.savesize) obj.savesize=obj.size;
+      obj.size=Math.max(obj.savesize,obj.value.length);
+     }
+  </script>
+</head>
+<body>
+<h1>User feeds</h1>
+    <form action="#" th:action="@{/feeds/postfeeds}" th:object="${feed}" method="post">
+    	<table>
+                <tr>
+                    <td>Victim Name:</td>
+                   <!--  <span th:text ="${#authentication.getPrincipal().getUser().getUserName()}"></span>
+                     -->
+                </tr>
+               
+                <tr>
+                <td>comments</td>
+                <td><input type="text" th:field="*{comments}" size="15" style="font-family:Courier;" onkeyup="Expand(this);"/></td></tr>
+                
+                <tr>
+                    <td><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+    	
+    </form>
+</body>
+</html>
