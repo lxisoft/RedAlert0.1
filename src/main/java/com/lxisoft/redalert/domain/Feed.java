@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Objects;
 
@@ -41,10 +42,10 @@ public class Feed implements Serializable {
     @Column(name = "created_time")
     private Instant createdTime;
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(cascade=CascadeType.ALL,mappedBy = "feed",fetch=FetchType.EAGER )
     @JsonIgnore
-    private Set<Action> actions = new HashSet<>();
-
+    private Set<Action> actions = new LinkedHashSet<>();
+    
     @OneToMany(mappedBy = "feed")
     @JsonIgnore
     private Set<Reaction> scopeOfFeeds = new HashSet<>();
@@ -277,6 +278,6 @@ public class Feed implements Serializable {
             ", type='" + getType() + "'" +
             ", comments='" + getComments() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
-            "}";
+            "actions are:somany}";
     }
 }
