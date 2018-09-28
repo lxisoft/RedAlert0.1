@@ -35,6 +35,12 @@ public class UserRegistration implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "jhi_password")
+    private String password;
+
+    @Column(name = "confirm_password")
+    private String confirmPassword;
+
     @Column(name = "blood_group")
     private String bloodGroup;
 
@@ -42,13 +48,12 @@ public class UserRegistration implements Serializable {
     private Instant createdTime;
 
     @OneToMany(mappedBy = "userRegistration")
-    @JsonIgnore
     private Set<Feed> comments = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "user_registration_emergency_contact",
-               joinColumns = @JoinColumn(name="user_registrations_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="emergency_contacts_id", referencedColumnName="id"))
+               joinColumns = @JoinColumn(name = "user_registrations_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "emergency_contacts_id", referencedColumnName = "id"))
     private Set<Contact> emergencyContacts = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -110,6 +115,32 @@ public class UserRegistration implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public UserRegistration password(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public UserRegistration confirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+        return this;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getBloodGroup() {
@@ -215,8 +246,15 @@ public class UserRegistration implements Serializable {
             ", lastName='" + getLastName() + "'" +
             ", phone=" + getPhone() +
             ", email='" + getEmail() + "'" +
+            ", password='" + getPassword() + "'" +
+            ", confirmPassword='" + getConfirmPassword() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
             "}";
     }
+
+	public UserRegistration get() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

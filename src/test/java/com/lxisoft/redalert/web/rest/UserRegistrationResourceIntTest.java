@@ -12,9 +12,12 @@ import com.lxisoft.redalert.web.rest.errors.ExceptionTranslator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -26,11 +29,14 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+
 
 import static com.lxisoft.redalert.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -55,6 +61,12 @@ public class UserRegistrationResourceIntTest {
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PASSWORD = "AAAAAAAAAA";
+    private static final String UPDATED_PASSWORD = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CONFIRM_PASSWORD = "AAAAAAAAAA";
+    private static final String UPDATED_CONFIRM_PASSWORD = "BBBBBBBBBB";
+
     private static final String DEFAULT_BLOOD_GROUP = "AAAAAAAAAA";
     private static final String UPDATED_BLOOD_GROUP = "BBBBBBBBBB";
 
@@ -64,8 +76,15 @@ public class UserRegistrationResourceIntTest {
     @Autowired
     private UserRegistrationRepository userRegistrationRepository;
 
+    @Mock
+    private UserRegistrationRepository userRegistrationRepositoryMock;
+
     @Autowired
     private UserRegistrationMapper userRegistrationMapper;
+    
+
+    @Mock
+    private UserRegistrationService userRegistrationServiceMock;
 
     @Autowired
     private UserRegistrationService userRegistrationService;
@@ -109,6 +128,8 @@ public class UserRegistrationResourceIntTest {
             .lastName(DEFAULT_LAST_NAME)
             .phone(DEFAULT_PHONE)
             .email(DEFAULT_EMAIL)
+            .password(DEFAULT_PASSWORD)
+            .confirmPassword(DEFAULT_CONFIRM_PASSWORD)
             .bloodGroup(DEFAULT_BLOOD_GROUP)
             .createdTime(DEFAULT_CREATED_TIME);
         return userRegistration;
@@ -139,6 +160,8 @@ public class UserRegistrationResourceIntTest {
         assertThat(testUserRegistration.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testUserRegistration.getPhone()).isEqualTo(DEFAULT_PHONE);
         assertThat(testUserRegistration.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testUserRegistration.getPassword()).isEqualTo(DEFAULT_PASSWORD);
+        assertThat(testUserRegistration.getConfirmPassword()).isEqualTo(DEFAULT_CONFIRM_PASSWORD);
         assertThat(testUserRegistration.getBloodGroup()).isEqualTo(DEFAULT_BLOOD_GROUP);
         assertThat(testUserRegistration.getCreatedTime()).isEqualTo(DEFAULT_CREATED_TIME);
     }
@@ -178,8 +201,41 @@ public class UserRegistrationResourceIntTest {
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME.toString())))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE.intValue())))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
+            .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD.toString())))
+            .andExpect(jsonPath("$.[*].confirmPassword").value(hasItem(DEFAULT_CONFIRM_PASSWORD.toString())))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP.toString())))
             .andExpect(jsonPath("$.[*].createdTime").value(hasItem(DEFAULT_CREATED_TIME.toString())));
+    }
+    
+    public void getAllUserRegistrationsWithEagerRelationshipsIsEnabled() throws Exception {
+        UserRegistrationResource userRegistrationResource = new UserRegistrationResource(userRegistrationServiceMock);
+        when(userRegistrationServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restUserRegistrationMockMvc = MockMvcBuilders.standaloneSetup(userRegistrationResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restUserRegistrationMockMvc.perform(get("/api/user-registrations?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(userRegistrationServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    public void getAllUserRegistrationsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        UserRegistrationResource userRegistrationResource = new UserRegistrationResource(userRegistrationServiceMock);
+            when(userRegistrationServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restUserRegistrationMockMvc = MockMvcBuilders.standaloneSetup(userRegistrationResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restUserRegistrationMockMvc.perform(get("/api/user-registrations?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(userRegistrationServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -197,6 +253,8 @@ public class UserRegistrationResourceIntTest {
             .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME.toString()))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE.intValue()))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()))
+            .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD.toString()))
+            .andExpect(jsonPath("$.confirmPassword").value(DEFAULT_CONFIRM_PASSWORD.toString()))
             .andExpect(jsonPath("$.bloodGroup").value(DEFAULT_BLOOD_GROUP.toString()))
             .andExpect(jsonPath("$.createdTime").value(DEFAULT_CREATED_TIME.toString()));
     }
@@ -214,10 +272,11 @@ public class UserRegistrationResourceIntTest {
     public void updateUserRegistration() throws Exception {
         // Initialize the database
         userRegistrationRepository.saveAndFlush(userRegistration);
+
         int databaseSizeBeforeUpdate = userRegistrationRepository.findAll().size();
 
         // Update the userRegistration
-        UserRegistration updatedUserRegistration = userRegistrationRepository.findOne(userRegistration.getId());
+        UserRegistration updatedUserRegistration = (( UserRegistration) userRegistrationRepository.findById(userRegistration.getId())).get();
         // Disconnect from session so that the updates on updatedUserRegistration are not directly saved in db
         em.detach(updatedUserRegistration);
         updatedUserRegistration
@@ -225,6 +284,8 @@ public class UserRegistrationResourceIntTest {
             .lastName(UPDATED_LAST_NAME)
             .phone(UPDATED_PHONE)
             .email(UPDATED_EMAIL)
+            .password(UPDATED_PASSWORD)
+            .confirmPassword(UPDATED_CONFIRM_PASSWORD)
             .bloodGroup(UPDATED_BLOOD_GROUP)
             .createdTime(UPDATED_CREATED_TIME);
         UserRegistrationDTO userRegistrationDTO = userRegistrationMapper.toDto(updatedUserRegistration);
@@ -242,6 +303,8 @@ public class UserRegistrationResourceIntTest {
         assertThat(testUserRegistration.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testUserRegistration.getPhone()).isEqualTo(UPDATED_PHONE);
         assertThat(testUserRegistration.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testUserRegistration.getPassword()).isEqualTo(UPDATED_PASSWORD);
+        assertThat(testUserRegistration.getConfirmPassword()).isEqualTo(UPDATED_CONFIRM_PASSWORD);
         assertThat(testUserRegistration.getBloodGroup()).isEqualTo(UPDATED_BLOOD_GROUP);
         assertThat(testUserRegistration.getCreatedTime()).isEqualTo(UPDATED_CREATED_TIME);
     }
@@ -254,15 +317,15 @@ public class UserRegistrationResourceIntTest {
         // Create the UserRegistration
         UserRegistrationDTO userRegistrationDTO = userRegistrationMapper.toDto(userRegistration);
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restUserRegistrationMockMvc.perform(put("/api/user-registrations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(userRegistrationDTO)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the UserRegistration in the database
         List<UserRegistration> userRegistrationList = userRegistrationRepository.findAll();
-        assertThat(userRegistrationList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(userRegistrationList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -270,6 +333,7 @@ public class UserRegistrationResourceIntTest {
     public void deleteUserRegistration() throws Exception {
         // Initialize the database
         userRegistrationRepository.saveAndFlush(userRegistration);
+
         int databaseSizeBeforeDelete = userRegistrationRepository.findAll().size();
 
         // Get the userRegistration

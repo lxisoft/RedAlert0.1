@@ -1,21 +1,5 @@
 {
-    "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "comments",
-            "otherEntityName": "feed",
-            "otherEntityRelationshipName": "userRegistration"
-        },
-        {
-            "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "",
-            "relationshipName": "emergencyContact",
-            "otherEntityName": "contact",
-            "otherEntityField": "id",
-            "ownerSide": true
-        }
-    ],
+    "name": "UserRegistration",
     "fields": [
         {
             "fieldName": "firstName",
@@ -34,6 +18,14 @@
             "fieldType": "String"
         },
         {
+            "fieldName": "password",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "confirmPassword",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "bloodGroup",
             "fieldType": "String"
         },
@@ -42,11 +34,30 @@
             "fieldType": "Instant"
         }
     ],
-    "changelogDate": "20180925054410",
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "comments",
+            "otherEntityName": "feed",
+            "otherEntityRelationshipName": "userRegistration"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "emergencyContact",
+            "otherEntityName": "contact",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20180928055907",
     "entityTableName": "user_registration",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "RedAlert",
+    "applications": "*",
     "microserviceName": "RedAlert"
 }

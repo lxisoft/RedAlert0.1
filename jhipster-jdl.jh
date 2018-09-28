@@ -41,6 +41,8 @@ firstName String,
 lastName String,
 phone Long,
 email String,
+password String,
+confirmPassword String,
 bloodGroup String,
 createdTime Instant
 } 

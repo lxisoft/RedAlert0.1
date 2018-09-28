@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1"/>
+<title>RedAlert - Start</title>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+footer {
+    background-color: LightGray;
+    padding: 10px;
+    text-align: right;
+    color: white;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 25%;
+    align: middle;
+ 
+    
+}
+.cancelbtn {
+	background-color: #f44336;
+}
+</style>
+</head>
+<body>
+<h1 style="color: red;">
+		<font size="10">RedAlert</font>
+	</h1>
+	<form action="#" th:action="@{/signup}" method="get">
+	<button type="submit">SignUp</button>
+	 </form>
+	
+	<form action="#" th:action="@{/login}" method="get"> 
+	<button type="submit" class="cancelbtn">Login</button>
+	</form>
+	
+	<footer>
+  <p>2018-2019</p>
+</footer>
+</body>
+</html>

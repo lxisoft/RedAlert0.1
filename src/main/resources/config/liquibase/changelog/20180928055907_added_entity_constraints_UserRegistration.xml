@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity UserRegistration.
+    -->
+    <changeSet id="20180928055907-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="user_registrations_id"
+                                 baseTableName="user_registration_emergency_contact"
+                                 constraintName="fk_user_registration_emergency_contact_user_registrations_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_registration"/>
+        <addForeignKeyConstraint baseColumnNames="emergency_contacts_id"
+                                 baseTableName="user_registration_emergency_contact"
+                                 constraintName="fk_user_registration_emergency_contact_emergency_contacts_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="contact"/>
+        
+    </changeSet>
+</databaseChangeLog>

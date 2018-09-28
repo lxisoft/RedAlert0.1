@@ -190,6 +190,6 @@ public class Action implements Serializable {
             ", type='" + getType() + "'" +
             ", requestApproval='" + isRequestApproval() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
-            "}";
+            "feeds="+getFeed()+"}";
     }
 }

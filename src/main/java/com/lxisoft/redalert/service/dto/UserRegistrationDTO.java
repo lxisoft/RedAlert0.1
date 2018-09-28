@@ -1,6 +1,5 @@
 package com.lxisoft.redalert.service.dto;
 
-
 import java.time.Instant;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -21,6 +20,10 @@ public class UserRegistrationDTO implements Serializable {
     private Long phone;
 
     private String email;
+
+    private String password;
+
+    private String confirmPassword;
 
     private String bloodGroup;
 
@@ -68,6 +71,22 @@ public class UserRegistrationDTO implements Serializable {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     public String getBloodGroup() {
         return bloodGroup;
     }
@@ -102,7 +121,7 @@ public class UserRegistrationDTO implements Serializable {
         }
 
         UserRegistrationDTO userRegistrationDTO = (UserRegistrationDTO) o;
-        if(userRegistrationDTO.getId() == null || getId() == null) {
+        if (userRegistrationDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), userRegistrationDTO.getId());
@@ -121,6 +140,8 @@ public class UserRegistrationDTO implements Serializable {
             ", lastName='" + getLastName() + "'" +
             ", phone=" + getPhone() +
             ", email='" + getEmail() + "'" +
+            ", password='" + getPassword() + "'" +
+            ", confirmPassword='" + getConfirmPassword() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
             "}";

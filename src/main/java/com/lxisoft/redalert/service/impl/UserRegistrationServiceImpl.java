@@ -7,12 +7,14 @@ import com.lxisoft.redalert.service.dto.UserRegistrationDTO;
 import com.lxisoft.redalert.service.mapper.UserRegistrationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Optional;
 /**
  * Service Implementation for managing UserRegistration.
  */
@@ -60,6 +62,16 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     /**
+     * Get all the UserRegistration with eager load of many-to-many relationships.
+     *
+     * @return the list of entities
+     */
+    public Page<UserRegistrationDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return userRegistrationRepository.findAllWithEagerRelationships(pageable).map(userRegistrationMapper::toDto);
+    }
+    
+
+    /**
      * Get one userRegistration by id.
      *
      * @param id the id of the entity
@@ -67,10 +79,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
      */
     @Override
     @Transactional(readOnly = true)
-    public UserRegistrationDTO findOne(Long id) {
+    public Optional<UserRegistrationDTO> findOne(Long id) {
         log.debug("Request to get UserRegistration : {}", id);
-        UserRegistration userRegistration = userRegistrationRepository.findOneWithEagerRelationships(id);
-        return userRegistrationMapper.toDto(userRegistration);
+        return userRegistrationRepository.findOneWithEagerRelationships(id)
+            .map(userRegistrationMapper::toDto);
     }
 
     /**
@@ -81,6 +93,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete UserRegistration : {}", id);
-        userRegistrationRepository.delete(id);
+        userRegistrationRepository.deleteById(id);
     }
 }

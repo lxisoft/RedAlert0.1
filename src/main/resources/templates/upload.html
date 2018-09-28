@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>upload successfully</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+	<h1>News Feed</h1>
+	<!-- <table>
+     <tr th:each="feed, sat : ${feeds}">
+    <form action="sahal" method="get" th:object="${feed}"> 
+    <td> 
+    <input type="text" name="id" th:value="*{id}" /></td>
+    <td ><input type="text" name="comment" th:value="*{comments}" /></td>
+    <td><input type="submit"/></td>
+    </form>
+
+   </tr>
+  
+</table> -->
+
+
+	<table border="1">
+
+
+<form action="#" th:action="@{/feeds/comments}"  method="post">
+		<tr>
+			<th>Post</th>
+		</tr>
+		<tr>
+	
+			<td th:text="${feed.comments}" />
+		</tr>
+
+
+		<tr>
+			<th>COmments</th>
+		</tr>
+		<th:block th:each="action : ${feed.actions}">
+
+			<tr>
+
+				<td th:text="${action.userName}" />
+
+			</tr>
+		</th:block>
+<!-- <th:block th:with="ac=${feed}"> -->
+
+		<tr>
+			<td><input type="text" th:field="${newAction.userName}" /></td>
+			<input type="hidden" th:field="${newAction.feed}" />
+			<td><input type="submit" value="add Comment" /></td>
+		
+		</tr>
+	
+
+</form>
+	</table>
+
+
+
+
+</body>
+</html>

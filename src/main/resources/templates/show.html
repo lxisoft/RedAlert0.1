@@ -1,0 +1,17 @@
+<html>
+<body>
+
+<form action="#"th:action="@{/redalert}" th:object="${userreg}" method="get">
+<p> Firstname: <input type="text" th:field="*{firstName}" /></p>
+
+ 
+        <p>LastName: <input type="text" th:field="*{lastName}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+
+</form>
+
+
+
+
+</body>
+</html>
