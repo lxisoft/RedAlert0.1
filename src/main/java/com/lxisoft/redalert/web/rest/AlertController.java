@@ -32,70 +32,47 @@ public class AlertController {
 	private final FeedService feedService;
 	private final FileService fileservice;
     public AlertController(FeedService feedService,FileService fileservice)
-    {
+        {   
     	this.feedService = feedService;
     	this.fileservice = fileservice;
-    }
+    	}
 	 @PostMapping("/postinformation")
 	    @Timed
 	    public String createFeed(@ModelAttribute View view,@RequestParam MultipartFile img, RedirectAttributes redirectAttr,Model model) throws URISyntaxException {
-	       
-		 System.out.println("second View Dto"+view);
-	       
-	       System.out.println("second feed dto"+view.getFeed()+"id"+view.getFile());
-	     
-	       FeedDTO feedDto=feedService.findOne(view.getFeed().getId());
-	       
-	       feedDto.setComments(view.getFeed().getComments());
-	       System.out.println("feeddto nnnn"+feedDto);
+	    System.out.println("second View Dto"+view);
+	    System.out.println("second feed dto"+view.getFeed()+"id"+view.getFile());
+	    FeedDTO feedDto=feedService.findOne(view.getFeed().getId());
+	    feedDto.setComments(view.getFeed().getComments());
+	    System.out.println("feeddto nnnn"+feedDto);
 	       
 	       feedService.save(feedDto);
 	       FileDTO fileDTO=view.getFile();
 	       fileDTO.setFeedId(view.getFeed().getId());
-	      try {
-			fileDTO.setAttachments(img.getBytes());
-		} catch (IOException e) {
+	        
+	       try {
+			   fileDTO.setAttachments(img.getBytes());
+		       } 
+	          catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	       System.out.println("second file dto"+view.getFile().getAttachments());
 	       fileservice.save(view.getFile());
-			
-			System.out.println("successsfullllllllllllllllllllllllllllllllllllllllllllllll");
-	        return "success";
+		   System.out.println("successsful");
+	       return "success";
 	    }
-	 @PostMapping("/postfile")
-	 @Timed
-	 public String uploadFile(@ModelAttribute FeedDTO feedDTO,@RequestParam MultipartFile file ,RedirectAttributes redirectAttr,Model model){
-		 
-		 FileDTO filedto=new FileDTO();
-		 try {
-			filedto.setAttachments(file.getBytes());
-			FileDTO saved=fileservice.save(filedto);
-			System.out.println(saved);
-			model.addAttribute("fileDTO",saved);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 return "success";
-		 
-	 }
+	
 	@GetMapping("/firstpage") 
-public String firstView(Model model)
-{
+    public String firstView(Model model)
+    {
 	model.addAttribute("feed",new FeedDTO());
-return "home";
-}
+    return "home";
+    }
 	 @GetMapping("/alert")
 	 public String alert(@ModelAttribute FeedDTO feed,Model model)
-	 {
-		 	//if(feed.getType().equals(null)||feed.getType().equals(Alert.GREEN_ALERT)||feed.getType().equals(Alert.GREEN_ALERT))
-		 	//{
-				
-		 if(!(feed.getType()==null))
-		 {
-		 if(!feed.getType().equals(Alert.ORANGE_ALERT))
+	    {
+		 System.out.println(feed.getType());
+	     if((feed.getType().equals(Alert.ORANGE_ALERT)))
 		 {
 		 feed.setType(Alert.ORANGE_ALERT);
 		 feed=feedService.save(feed);
@@ -113,7 +90,7 @@ return "home";
 		 
 		 
 	    }
-		 if(!feed.getType().equals(Alert.RED_ALERT))
+			 else if((feed.getType().equals(Alert.RED_ALERT)))
 		 {
 			 feed.setType(Alert.RED_ALERT);
 		 feed=feedService.save(feed);
@@ -128,6 +105,8 @@ return "home";
 	  	 model.addAttribute("view",view);
 		return "redalert"; 
 		 }
+			 else
+			 {
 		 feed.setType(Alert.GREEN_ALERT);
 		 feed=feedService.save(feed);
 		 System.out.println("first feed "+feed);
@@ -140,8 +119,7 @@ return "home";
          System.out.println("first file "+view.getFeed()+"*****"+view.getFile().getFeedId());
 	  	 model.addAttribute("view",view);
 	  	 return "greenalert";
-		 } 
-		 return "home";
+			 }
 	 }	 
 		 
 		 //}	 
