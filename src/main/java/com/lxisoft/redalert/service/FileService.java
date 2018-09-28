@@ -12,15 +12,15 @@ public interface FileService {
     /**
      * Save a file.
      *
-     * @param fileDTO the entity to save
+     * @param attachments the entity to save
      * @return the persisted entity
      */
-    FileDTO save(FileDTO fileDTO);
+    FileDTO save(byte[] attachments);
 
     /**
      * Get all the files.
      *
-     * @param pageable the pagination information
+     * @param pageable the pagination informationre
      * @return the list of entities
      */
     Page<FileDTO> findAll(Pageable pageable);
@@ -39,4 +39,6 @@ public interface FileService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+	FileDTO save(FileDTO fileDTO);
 }

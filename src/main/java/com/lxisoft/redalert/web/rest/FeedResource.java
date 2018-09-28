@@ -32,7 +32,6 @@ public class FeedResource {
     private final Logger log = LoggerFactory.getLogger(FeedResource.class);
 
     private static final String ENTITY_NAME = "feed";
-
     private final FeedService feedService;
 
     public FeedResource(FeedService feedService) {

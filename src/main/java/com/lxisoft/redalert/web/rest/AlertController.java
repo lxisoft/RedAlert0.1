@@ -18,6 +18,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.lxisoft.redalert.domain.File;
 import com.lxisoft.redalert.domain.User;
 import com.lxisoft.redalert.domain.enumeration.Alert;
+import com.lxisoft.redalert.model.View;
 import com.lxisoft.redalert.service.FeedService;
 import com.lxisoft.redalert.service.FileService;
 import com.lxisoft.redalert.service.dto.FeedDTO;
@@ -37,16 +38,35 @@ public class AlertController {
     }
 	 @PostMapping("/postinformation")
 	    @Timed
-	    public String createFeed(@ModelAttribute FeedDTO feedDTO,Model model) throws URISyntaxException {
+	    public String createFeed(@ModelAttribute View view,@RequestParam MultipartFile img, RedirectAttributes redirectAttr,Model model) throws URISyntaxException {
 	       
+		 System.out.println("second View Dto"+view);
 	       
-			FeedDTO result = feedService.save(feedDTO);
-			model.addAttribute("file",new FileDTO());
-	        return "fileupload";
+	       System.out.println("second feed dto"+view.getFeed()+"id"+view.getFile());
+	     
+	       FeedDTO feedDto=feedService.findOne(view.getFeed().getId());
+	       
+	       feedDto.setComments(view.getFeed().getComments());
+	       System.out.println("feeddto nnnn"+feedDto);
+	       
+	       feedService.save(feedDto);
+	       FileDTO fileDTO=view.getFile();
+	       fileDTO.setFeedId(view.getFeed().getId());
+	      try {
+			fileDTO.setAttachments(img.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	       System.out.println("second file dto"+view.getFile().getAttachments());
+	       fileservice.save(view.getFile());
+			
+			System.out.println("successsfullllllllllllllllllllllllllllllllllllllllllllllll");
+	        return "success";
 	    }
 	 @PostMapping("/postfile")
 	 @Timed
-	 public String uploadFile(@RequestParam MultipartFile file ,RedirectAttributes redirectAttr,Model model){
+	 public String uploadFile(@ModelAttribute FeedDTO feedDTO,@RequestParam MultipartFile file ,RedirectAttributes redirectAttr,Model model){
 		 
 		 FileDTO filedto=new FileDTO();
 		 try {
@@ -64,26 +84,70 @@ public class AlertController {
 	@GetMapping("/firstpage") 
 public String firstView(Model model)
 {
-	model.addAttribute("user",new UserRegistrationDTO());
+	model.addAttribute("feed",new FeedDTO());
 return "home";
 }
 	 @GetMapping("/alert")
-	 public String alert(@RequestParam String type)
+	 public String alert(@ModelAttribute FeedDTO feed,Model model)
 	 {
-		 for(Alert al:Alert.values())
+		 	//if(feed.getType().equals(null)||feed.getType().equals(Alert.GREEN_ALERT)||feed.getType().equals(Alert.GREEN_ALERT))
+		 	//{
+				
+		 if(!(feed.getType()==null))
 		 {
-			 if(type==Alert.ORANGE_ALERT.toString())
-			 {
-				 return "orangealert";
-			 }
-			 if(type==Alert.RED_ALERT.toString())
-			 {
-				 return "redalert";
-			 }
-		 }
+		 if(!feed.getType().equals(Alert.ORANGE_ALERT))
+		 {
+		 feed.setType(Alert.ORANGE_ALERT);
+		 feed=feedService.save(feed);
+		 System.out.println("first feed "+feed);
+		 View view=new View();
 		 
-	 	return "";
-	 }
+         FileDTO fileDTO = new FileDTO();
+         fileDTO.setFeedId(feed.getId());
+         view.setFeed(feed);
+         view.setFile(fileDTO);
+         System.out.println("first file "+view.getFeed()+"*****"+view.getFile().getFeedId());
+	  	 model.addAttribute("view",view);
+ 
+	     return "orangealert";
+		 
+		 
+	    }
+		 if(!feed.getType().equals(Alert.RED_ALERT))
+		 {
+			 feed.setType(Alert.RED_ALERT);
+		 feed=feedService.save(feed);
+		 System.out.println("first feed "+feed);
+		 View view=new View();
+		 
+         FileDTO fileDTO = new FileDTO();
+         fileDTO.setFeedId(feed.getId());
+         view.setFeed(feed);
+         view.setFile(fileDTO);
+         System.out.println("first file "+view.getFeed()+"*****"+view.getFile().getFeedId());
+	  	 model.addAttribute("view",view);
+		return "redalert"; 
+		 }
+		 feed.setType(Alert.GREEN_ALERT);
+		 feed=feedService.save(feed);
+		 System.out.println("first feed "+feed);
+		 View view=new View();
+		 
+         FileDTO fileDTO = new FileDTO();
+         fileDTO.setFeedId(feed.getId());
+         view.setFeed(feed);
+         view.setFile(fileDTO);
+         System.out.println("first file "+view.getFeed()+"*****"+view.getFile().getFeedId());
+	  	 model.addAttribute("view",view);
+	  	 return "greenalert";
+		 } 
+		 return "home";
+	 }	 
+		 
+		 //}	 
+				 
+				
+	 
 @GetMapping("/orangealert")
 public String orangeAlert(Model model)
 {

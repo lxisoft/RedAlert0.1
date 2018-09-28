@@ -33,7 +33,8 @@ public class User {
         this.authorities = authorities;
     }
 
-    public String getLogin() {
+
+	public String getLogin() {
         return login;
     }
 

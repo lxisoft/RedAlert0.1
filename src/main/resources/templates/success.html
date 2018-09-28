@@ -1,2 +1,7 @@
 <html>
-<p>success..!!</p></html>
+<p>success..!!</p>
+
+    <p th:text="'alert type: ' + ${feedDTO.getType()}"/>
+    <p th:text="'matter: ' + ${feedDTO.getComments()}"/>
+    <p th:text="'attachment' + ${fileDTO.getAttachments()}"/>
+    </html>
