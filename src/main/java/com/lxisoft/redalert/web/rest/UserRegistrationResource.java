@@ -31,7 +31,7 @@ public class UserRegistrationResource {
 
     private final Logger log = LoggerFactory.getLogger(UserRegistrationResource.class);
 
-    private static final String ENTITY_NAME = "userRegistration";
+    private static final String ENTITY_NAME = "redAlertUserRegistration";
 
     private final UserRegistrationService userRegistrationService;
 
@@ -73,7 +73,7 @@ public class UserRegistrationResource {
     public ResponseEntity<UserRegistrationDTO> updateUserRegistration(@RequestBody UserRegistrationDTO userRegistrationDTO) throws URISyntaxException {
         log.debug("REST request to update UserRegistration : {}", userRegistrationDTO);
         if (userRegistrationDTO.getId() == null) {
-            return createUserRegistration(userRegistrationDTO);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         UserRegistrationDTO result = userRegistrationService.save(userRegistrationDTO);
         return ResponseEntity.ok()
@@ -85,14 +85,20 @@ public class UserRegistrationResource {
      * GET  /user-registrations : get all the userRegistrations.
      *
      * @param pageable the pagination information
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of userRegistrations in body
      */
     @GetMapping("/user-registrations")
     @Timed
-    public ResponseEntity<List<UserRegistrationDTO>> getAllUserRegistrations(Pageable pageable) {
+    public ResponseEntity<List<UserRegistrationDTO>> getAllUserRegistrations(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of UserRegistrations");
-        Page<UserRegistrationDTO> page = userRegistrationService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/user-registrations");
+        Page<UserRegistrationDTO> page;
+        if (eagerload) {
+            page = userRegistrationService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = userRegistrationService.findAll(pageable);
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/user-registrations?eagerload=%b", eagerload));
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
@@ -106,8 +112,8 @@ public class UserRegistrationResource {
     @Timed
     public ResponseEntity<UserRegistrationDTO> getUserRegistration(@PathVariable Long id) {
         log.debug("REST request to get UserRegistration : {}", id);
-        UserRegistrationDTO userRegistrationDTO = userRegistrationService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userRegistrationDTO));
+        Optional<UserRegistrationDTO> userRegistrationDTO = userRegistrationService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(userRegistrationDTO);
     }
 
     /**
