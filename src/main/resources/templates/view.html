@@ -10,12 +10,11 @@
 </head>
 <body>
 <h1>User feeds</h1>
-    <form action="#" th:action="@{/feeds/postfeeds}" th:object="${feed}" method="post">
+    <form action="#" th:action="@{/feeds/get}" th:object="${feed}" method="get">
     	<table>
                 <tr>
                     <td>Victim Name:</td>
-                   <!--  <span th:text ="${#authentication.getPrincipal().getUser().getUserName()}"></span>
-                     -->
+                 
                 </tr>
                
                 <tr>

@@ -30,16 +30,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.codahale.metrics.annotation.Timed;
-import com.lxisoft.redalert.domain.Feed;
 import com.lxisoft.redalert.service.FeedService;
 import com.lxisoft.redalert.service.dto.FeedDTO;
-import com.lxisoft.redalert.web.rest.errors.BadRequestAlertException;
-import com.lxisoft.redalert.web.rest.util.HeaderUtil;
 
 
 
-/**
-* TODO Provide a detailed description here 
+/*** TODO Provide a detailed description here 
 * @author Prasad
 * prasad, prasad.v.g@lxisoft.com
 */

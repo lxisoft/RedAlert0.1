@@ -1,7 +1,7 @@
 <html>
 <p>success..!!</p>
 
-    <p th:text="'alert type: ' + ${feedDTO.getType()}"/>
-    <p th:text="'matter: ' + ${feedDTO.getComments()}"/>
-    <p th:text="'attachment' + ${fileDTO.getAttachments()}"/>
+    <p th:text="'alert type: ' + ${view.getFeed().getType()}"/>
+    <p th:text="'matter: ' + ${view.getFeed().getComments()}"/>
+    <img class="info" th:attr="src=@{${view.getFile().getAttachments()}}"/>
     </html>
