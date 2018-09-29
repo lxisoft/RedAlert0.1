@@ -1,77 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1" />
+<meta charset="ISO-8859-1"></meta>
 <title>RedAlert - SignUp</title>
-<style>
-body {
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-* {
-	box-sizing: border-box
-}
-
-input[type=text], input[type=password] {
-	width: 100%;
-	padding: 15px;
-	margin: 5px 0 22px 0;
-	display: inline-block;
-	border: none;
-	background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=password]:focus {
-	background-color: #ddd;
-	outline: none;
-}
-
-hr {
-	border: 1px solid #f1f1f1;
-	margin-bottom: 25px;
-}
-
-button {
-	background-color: #4CAF50;
-	color: white;
-	padding: 14px 20px;
-	margin: 8px 0;
-	border: none;
-	cursor: pointer;
-	width: 100%;
-	opacity: 0.9;
-}
-
-button:hover {
-	opacity: 1;
-}
-
-.cancelbtn {
-	padding: 14px 20px;
-	background-color: #f44336;
-}
-
-.cancelbtn, .signupbtn {
-	float: left;
-	width: 50%;
-}
-
-.container {
-	padding: 16px;
-}
-
-.clearfix::after {
-	content: "";
-	clear: both;
-	display: table;
-}
-
-@media screen and (max-width: 300px) {
-	.cancelbtn, .signupbtn {
-		width: 100%;
-	}
-}
-</style>
+ <meta charset="utf-8"></meta>
+  <meta http-equiv="x-ua-compatible" content="ie=edge"></meta>
+  <title>Contacts</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet"></link>
+  <!-- Your custom styles (optional) -->
+  <link href="css/style.css" rel="stylesheet"></link>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" ></meta>
+  <meta name="description" content="" ></meta>
+  <meta name="keywords" content="" ></meta>
+  <link rel="stylesheet" href="assets/css/main.css" ></link>
 <script>
 	function validateEmail(emailField) {
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -82,47 +28,78 @@ button:hover {
 		return true;
 	}
 	function check_pass() {
-		if (document.getElementById('password').value != document
-				.getElementById('repassword').value) {
+		if (document.getElementById('password').value !=
+            document.getElementById('repassword').value) {
 			alert('password not match');
 		}
-
+		
+		
 	}
 </script>
 </head>
-<body>
-	<h1 style="color: red;">
-		<font size="10">RedAlert</font>
-	</h1>
+<body class="is-preload">
+   
+    <header id="header">
+        <a class="logo" href="index.html">Red Alert</a>
+        <nav>
+          <a href="#menu">Menu</a>
+        </nav>
+    </header>
+    
+    <nav id="menu">
+        <ul class="links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="News.html">NewsFeed</a></li>
+          <li><a href="Contacts.html">Contacts</a></li>
+        </ul>
+    </nav>
+      
+    <div id="heading" >
+          <div class="inner">
+               <h1>SignUp</h1>
+               <h3><strong>Sign up to become a member</strong></h3>
+          </div>
+    </div>
+	
 	<form action="#" th:action="@{/save}" th:object="${userRegistration}"
 		method="post" style="border: 1px solid #ccc">
 		<div class="container">
-			<h1>Sign Up</h1>
-			<p>Please fill in this form to create an account.</p>
 
-			<label for="email"><b>Email</b></label> <input type="text"
+			
+			<label for="email"><b>Email</b></label> 
+			
+			<input type="text"
 				placeholder="Enter Email" name="email" th:field="*{email}" required=""
-				onblur="validateEmail(this);"></input> <label for="psw"><b>Password</b></label>
-
+				onblur="validateEmail(this);"></input>
+				
+				
+				 <label for="psw"><b>Password</b></label>
+				 
 			<input type="password" placeholder="Enter Password"
-				th:field="*{password}" id="password" required=""></input> <label
-				for="psw-repeat"><b>Repeat Password</b></label> <input
-				type="password" placeholder="Repeat Password" id="repassword"
-				th:field="*{confirmPassword}" required="" onchange='check_pass();'></input>
+				th:field="*{password}" id="password" required="" ></input>
+				
+				
+				 <label for="psw-repeat"><b>Repeat
+					Password</b></label>
+					
+					 <input type="password" placeholder="Repeat Password" id="repassword"
+				th:field="*{confirmPassword}" required="" onchange='check_pass();'> </input>
+				<br/>
+				 <div class="col-6 col-12-small">
+     <input type="checkbox" id="checkbox-beta" name="checkbox" checked=""></input>
+     <label for="checkbox-beta">Remember Me</label>
+    </div>
 
-			<label> <input type="checkbox" checked="checked"
-				name="remember" style="margin-bottom: 15px"></input> Remember me
-			</label>
-
-			<p>
+			<p align="center">
 				By creating an account you agree to our <a href="#"
 					style="color:dodgerblue">Terms&Privacy;</a>
 			</p>
-			<div class="clearfix">
-				<button type="button" class="cancelbtn">Cancel</button>
-				<button type="submit" class="signupbtn">Sign Up</button>
+			<div class="clearfix" align="center">
+				<button type="submit" class="block">Sign Up</button><br/>
+				<button type="button" class="cancelbtn">Cancel</button><br/>
 			</div>
 		</div>
+		<br/>
 	</form>
 
 

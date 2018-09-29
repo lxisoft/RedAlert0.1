@@ -1,88 +1,73 @@
-<!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="ISO-8859-1"/>
 <title>RedAlert-Login</title>
-<style>
-body {font-family: Arial, Helvetica, sans-serif;}
-form {border: 3px solid #f1f1f1;}
 
-input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    opacity: 0.8;
-}
-
-.cancelbtn {
-    width: auto;
-    padding: 10px 18px;
-    background-color: #f44336;
-}
-
-
-
-
-
-.container {
-    padding: 16px;
-}
-
-span.psw {
-    float: right;
-    padding-top: 16px;
-}
-@media screen and (max-width: 300px) {
-    span.psw {
-       display: block;
-       float: none;
-    }
-    .cancelbtn {
-       width: 100%;
-    }
-
-}
-</style>
+  <meta charset="utf-8"></meta>
+  <meta http-equiv="x-ua-compatible" content="ie=edge"></meta>
+  <title>Contacts</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet"></link>
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet"></link>
+  <!-- Your custom styles (optional) -->
+  <link href="css/style.css" rel="stylesheet"></link>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" ></meta>
+  <meta name="description" content="" ></meta>
+  <meta name="keywords" content="" ></meta>
+  <link rel="stylesheet" href="assets/css/main.css"></link>
 </head>
-<body>
-	<h1 style="color: red;">
-		<font size="10">RedAlert</font>
-	</h1>
-	<h2>Login Form</h2>
+
+<body class="is-preload">
+   
+    <header id="header">
+        <a class="logo" href="index.html">Red Alert</a>
+        <nav>
+          <a href="#menu">Menu</a>
+        </nav>
+    </header>
+    
+    <nav id="menu">
+        <ul class="links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="News.html">NewsFeed</a></li>
+          <li><a href="Contacts.html">Contacts</a></li>
+        </ul>
+    </nav>
+      
+    <div id="heading" >
+          <div class="inner">
+               <h1>Login</h1>
+               <h3><strong>Please login</strong></h3>
+          </div>
+    </div>
+	
+	<h2></h2>
  
 <form action="#" th:action="@{/findprofile}" method="post">
   
 
   <div class="container">
     <label for="uname"><b>E-Mail</b></label>
-    <input type="text" placeholder="Enter Username" name="email" required>
+    <input type="text" placeholder="Enter Username" name="email" required=""></input>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
-        
-    <button type="submit">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
+    <input type="password" placeholder="Enter Password" name="password" required=""></input>
+    <br/> 
+    <button type="button" class="block">Login</button>
+    <br/>
+   <div class="col-6 col-12-small">
+     <input type="checkbox" id="checkbox-beta" name="checkbox" checked=""></input>
+     <label for="checkbox-beta">Remember Me</label>
+    </div>
   </div>
 
-  <div class="container" style="background-color:#f1f1f1">
+
+
+  <div class="container" align="center">
     <button type="button" class="cancelbtn">Cancel</button>
     <span class="psw">Forgot <a href="#">password?</a></span>
   </div>
