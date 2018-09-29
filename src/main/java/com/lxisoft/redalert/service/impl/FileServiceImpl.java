@@ -83,4 +83,10 @@ public class FileServiceImpl implements FileService {
         log.debug("Request to delete File : {}", id);
         fileRepository.delete(id);
     }
+
+	@Override
+	public FileDTO save(byte[] attachments) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

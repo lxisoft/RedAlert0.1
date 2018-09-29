@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
- <script type="text/javascript">
-     function Expand(obj){
-      if (!obj.savesize) obj.savesize=obj.size;
-      obj.size=Math.max(obj.savesize,obj.value.length);
-     }
-  </script>
+<script type="text/javascript">
+	function Expand(obj) {
+		if (!obj.savesize)
+			obj.savesize = obj.size;
+		obj.size = Math.max(obj.savesize, obj.value.length);
+	}
+</script>
 </head>
 <body>
-<h1>User feeds</h1>
-    <form action="#" th:action="@{/alertcontroller/postinformation}" th:object="${user}" method="post">
-    	<table>
-                <tr>
-                    <td>Victim Name:</td>
-                   <!--  <span th:text ="${#authentication.getPrincipal().getUser().getUserName()}"></span>
-                     -->
-                </tr>
+	<h1>red alert</h1>
+	<form action="#" th:action="@{/alertcontroller/postinformation}" th:object="${view}" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td>Victim Name:</td>
+				
+			</tr>
                
-                <tr>
-                <td>Message:</td>
-                <td><input type="text" th:field="*{comments}" size="15" style="font-family:Courier;" onkeyup="Expand(this);" value = "I feel unsafe"/></td></tr>
-               
-                
-                <tr>
-                    <td><button type="submit">Submit</button></td>
-                </tr>
-            </table>
-    	
-    </form>
+			<tr>
+				<td>Message:</td>
+				
+				<td><input type="text" th:field="*{feed.comments}"  /></td>
+				<td><input type="hidden" th:field="*{feed.id}"  /></td>
+				
+				
+				
+			</tr>
+			<tr>
+               <td>File Upload(optionally):</td>
+               <input type = "file" th:name="img" />
+              
+              </tr>
+			<tr>
+
+				<td><button type="submit">Submit</button></td>
+				
+			</tr>
+		</table>
+
+	</form>
 </body>
 </html>

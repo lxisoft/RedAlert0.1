@@ -1,7 +1,27 @@
+<!DOCTYPE html>
 <html>
-<form action="#" th:action="@{/alertcontroller/alert}" method="get">
-<input type="submit" value="orange"/>
-<input type="hidden" name="type" value="ORANGE_ALERT"/>
-</form>
 
+
+
+
+<head></head>
+<body>
+<!--  <th:block th:each="enum :${T(com.lxisoft.redalert.domain.enumeration.Alert).values()}">-->
+<form action="#" th:action="@{/alertcontroller/alert}" th:object="${feed}" method="get">
+
+<input type="hidden"  name ="type" value="ORANGE_ALERT"/>
+<input type="submit"  value="orange"/>
+</form>
+<form action="#" th:action="@{/alertcontroller/alert}" th:object="${feed}" method="get">
+
+<input type="hidden"  name ="type" value="RED_ALERT"/>
+<input type="submit"  value="red"/>
+</form>
+<form action="#" th:action="@{/alertcontroller/alert}" th:object="${feed}" method="get">
+
+<input type="hidden"  name ="type" value="GREEN_ALERT"/>
+<input type="submit"  value="green"/>
+</form>
+<!-- </th:block> -->
+</body>
 </html>
