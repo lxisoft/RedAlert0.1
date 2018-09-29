@@ -1,7 +1,7 @@
 <html>
 <p>success..!!</p>
-
-    <p th:text="'alert type: ' + ${view.getFeed().getType()}"/>
-    <p th:text="'matter: ' + ${view.getFeed().getComments()}"/>
-    <img class="info" th:attr="src=@{${view.getFile().getAttachments()}}"/>
-    </html>
+<body>
+<p th:text="'matter: ' + ${view.getFeed().getComments()}" />
+<img th:src="${image}" width="100" height="100" />
+</body>
+</html>

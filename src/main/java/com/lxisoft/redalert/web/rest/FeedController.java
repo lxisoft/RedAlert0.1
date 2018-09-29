@@ -15,6 +15,7 @@
 */
 
 package com.lxisoft.redalert.web.rest;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -33,43 +34,47 @@ import com.codahale.metrics.annotation.Timed;
 import com.lxisoft.redalert.service.FeedService;
 import com.lxisoft.redalert.service.dto.FeedDTO;
 
-
-
-/*** TODO Provide a detailed description here 
-* @author Prasad
-* prasad, prasad.v.g@lxisoft.com
-*/
+/***
+ * TODO Provide a detailed description here
+ * 
+ * @author Prasad prasad, prasad.v.g@lxisoft.com
+ */
 @Controller
 @RequestMapping("/feeds")
 public class FeedController {
- 
+
 	private final Logger log = LoggerFactory.getLogger(FeedController.class);
-	 private static final String ENTITY_NAME = "feed";
-	    private final FeedService feedService;
-	    public FeedController(FeedService feedService)
-	    {
-	    	this.feedService = feedService;
-	    }
-	    /**
-	     * POST  /postfeeds : Create a new feed.
-	     *
-	     * @param feedDTO the feedDTO to create
-	     * @return the ResponseEntity with status 201 (Created) and with body the new feedDTO, or with status 400 (Bad Request) if the feed has already an ID
-	     * @throws URISyntaxException if the Location URI syntax is incorrect
-	     */
-	    @PostMapping("/postfeeds")
-	    @Timed
-	    public String createFeed(@ModelAttribute FeedDTO feedDTO) throws URISyntaxException {
-	        log.debug("request to save Feed : {}", feedDTO);
-	       
-	        FeedDTO result = feedService.save(feedDTO);
-	        return "newsfeed";
-	    }
-		@GetMapping("/get")
-		public String getFeed(Model model)
-		{
-			model.addAttribute("feed",new FeedDTO());
-			return "view";
-			
-		}
+	private static final String ENTITY_NAME = "feed";
+	private final FeedService feedService;
+
+	public FeedController(FeedService feedService) {
+		this.feedService = feedService;
+	}
+
+	/**
+	 * POST /postfeeds : Create a new feed.
+	 *
+	 * @param feedDTO
+	 *            the feedDTO to create
+	 * @return the ResponseEntity with status 201 (Created) and with body the
+	 *         new feedDTO, or with status 400 (Bad Request) if the feed has
+	 *         already an ID
+	 * @throws URISyntaxException
+	 *             if the Location URI syntax is incorrect
+	 */
+	@PostMapping("/postfeeds")
+	@Timed
+	public String createFeed(@ModelAttribute FeedDTO feedDTO) throws URISyntaxException {
+		log.debug("request to save Feed : {}", feedDTO);
+
+		FeedDTO result = feedService.save(feedDTO);
+		return "newsfeed";
+	}
+
+	@GetMapping("/get")
+	public String getFeed(Model model) {
+		model.addAttribute("feed", new FeedDTO());
+		return "view";
+
+	}
 }
