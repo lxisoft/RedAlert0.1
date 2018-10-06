@@ -22,12 +22,21 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "confirmPassword",
+            "fieldName": "bloodGroup",
             "fieldType": "String"
         },
         {
-            "fieldName": "bloodGroup",
-            "fieldType": "String"
+            "fieldName": "userImage",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "points",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "dateOfBith",
+            "fieldType": "Instant"
         },
         {
             "fieldName": "createdTime",
@@ -37,20 +46,20 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
-            "relationshipName": "comments",
-            "otherEntityName": "feed",
-            "otherEntityRelationshipName": "userRegistration"
+            "relationshipName": "message",
+            "otherEntityName": "userFeed",
+            "otherEntityRelationshipName": "user"
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "",
-            "relationshipName": "emergencyContact",
-            "otherEntityName": "contact",
+            "otherEntityRelationshipName": "users",
+            "relationshipName": "friends",
+            "otherEntityName": "friends",
             "otherEntityField": "id",
             "ownerSide": true
         }
     ],
-    "changelogDate": "20180928055907",
+    "changelogDate": "20181006072446",
     "entityTableName": "user_registration",
     "dto": "mapstruct",
     "pagination": "pagination",

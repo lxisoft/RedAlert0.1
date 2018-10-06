@@ -1,19 +1,5 @@
 {
-    "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipName": "feed",
-            "otherEntityName": "feed",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "scopeOfActions",
-            "otherEntityName": "reaction",
-            "otherEntityRelationshipName": "action"
-        }
-    ],
+    "name": "Action",
     "fields": [
         {
             "fieldName": "userName",
@@ -37,11 +23,28 @@
             "fieldType": "Instant"
         }
     ],
-    "changelogDate": "20180925054408",
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "scopeOfActions",
+            "otherEntityName": "reaction",
+            "otherEntityRelationshipName": "action"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "userFeed",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181006072444",
     "entityTableName": "action",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "RedAlert",
+    "applications": "*",
     "microserviceName": "RedAlert"
 }

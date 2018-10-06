@@ -1,0 +1,28 @@
+{
+    "name": "Friends",
+    "fields": [
+        {
+            "fieldName": "immediateFriend",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "users",
+            "otherEntityName": "userRegistration",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "friends"
+        }
+    ],
+    "changelogDate": "20181006072447",
+    "entityTableName": "friends",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "RedAlert",
+    "applications": "*",
+    "microserviceName": "RedAlert"
+}

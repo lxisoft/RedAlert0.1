@@ -1,13 +1,12 @@
 package com.lxisoft.redalert.repository;
 
 import com.lxisoft.redalert.domain.File;
-import org.springframework.stereotype.Repository;
-
 import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
 
 
 /**
- * Spring Data JPA repository for the File entity.
+ * Spring Data  repository for the File entity.
  */
 @SuppressWarnings("unused")
 @Repository

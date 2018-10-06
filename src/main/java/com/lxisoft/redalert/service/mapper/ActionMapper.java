@@ -8,14 +8,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Action and its DTO ActionDTO.
  */
-@Mapper(componentModel = "spring", uses = {FeedMapper.class})
+@Mapper(componentModel = "spring", uses = {UserFeedMapper.class})
 public interface ActionMapper extends EntityMapper<ActionDTO, Action> {
 
-    @Mapping(source = "feed.id", target = "feedId")
+    @Mapping(source = "user.id", target = "userId")
     ActionDTO toDto(Action action);
 
-    @Mapping(source = "feedId", target = "feed")
     @Mapping(target = "scopeOfActions", ignore = true)
+    @Mapping(source = "userId", target = "user")
     Action toEntity(ActionDTO actionDTO);
 
     default Action fromId(Long id) {

@@ -1,9 +1,6 @@
 package com.lxisoft.redalert.service.dto;
 
-
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 import javax.persistence.Lob;
 
@@ -18,7 +15,7 @@ public class FileDTO implements Serializable {
     private byte[] attachments;
     private String attachmentsContentType;
 
-    private Long feedId;
+    private Long userFeedId;
 
     public Long getId() {
         return id;
@@ -44,12 +41,12 @@ public class FileDTO implements Serializable {
         this.attachmentsContentType = attachmentsContentType;
     }
 
-    public Long getFeedId() {
-        return feedId;
+    public Long getUserFeedId() {
+        return userFeedId;
     }
 
-    public void setFeedId(Long feedId) {
-        this.feedId = feedId;
+    public void setUserFeedId(Long userFeedId) {
+        this.userFeedId = userFeedId;
     }
 
     @Override
@@ -62,7 +59,7 @@ public class FileDTO implements Serializable {
         }
 
         FileDTO fileDTO = (FileDTO) o;
-        if(fileDTO.getId() == null || getId() == null) {
+        if (fileDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), fileDTO.getId());
@@ -78,6 +75,7 @@ public class FileDTO implements Serializable {
         return "FileDTO{" +
             "id=" + getId() +
             ", attachments='" + getAttachments() + "'" +
+            ", userFeed=" + getUserFeedId() +
             "}";
     }
 }

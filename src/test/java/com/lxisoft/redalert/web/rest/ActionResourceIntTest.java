@@ -28,6 +28,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+
 import static com.lxisoft.redalert.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -64,7 +65,7 @@ public class ActionResourceIntTest {
 
     @Autowired
     private ActionMapper actionMapper;
-
+    
     @Autowired
     private ActionService actionService;
 
@@ -176,7 +177,7 @@ public class ActionResourceIntTest {
             .andExpect(jsonPath("$.[*].requestApproval").value(hasItem(DEFAULT_REQUEST_APPROVAL.booleanValue())))
             .andExpect(jsonPath("$.[*].createdTime").value(hasItem(DEFAULT_CREATED_TIME.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getAction() throws Exception {
@@ -208,10 +209,11 @@ public class ActionResourceIntTest {
     public void updateAction() throws Exception {
         // Initialize the database
         actionRepository.saveAndFlush(action);
+
         int databaseSizeBeforeUpdate = actionRepository.findAll().size();
 
         // Update the action
-        Action updatedAction = actionRepository.findOne(action.getId());
+        Action updatedAction = actionRepository.findById(action.getId()).get();
         // Disconnect from session so that the updates on updatedAction are not directly saved in db
         em.detach(updatedAction);
         updatedAction
@@ -246,15 +248,15 @@ public class ActionResourceIntTest {
         // Create the Action
         ActionDTO actionDTO = actionMapper.toDto(action);
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restActionMockMvc.perform(put("/api/actions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(actionDTO)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Action in the database
         List<Action> actionList = actionRepository.findAll();
-        assertThat(actionList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(actionList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -262,6 +264,7 @@ public class ActionResourceIntTest {
     public void deleteAction() throws Exception {
         // Initialize the database
         actionRepository.saveAndFlush(action);
+
         int databaseSizeBeforeDelete = actionRepository.findAll().size();
 
         // Get the action

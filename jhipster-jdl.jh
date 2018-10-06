@@ -1,11 +1,14 @@
 
-entity Feed {
+entity UserFeed {
     userName String,
-    matter String,
-    type Alert,
-    comments String,
+    message String,
+    currentType Alert,
+    isValid Boolean,
+    latitude String,
+    longitude String,
+	score Integer,
     createdTime Instant
-}
+  }
 
 enum Alert {
     RED_ALERT, ORANGE_ALERT, GREEN_ALERT 
@@ -42,16 +45,20 @@ lastName String,
 phone Long,
 email String,
 password String,
-confirmPassword String,
 bloodGroup String,
+userImage Blob,
+points Long,
+dateOfBith Instant,
 createdTime Instant
 } 
-entity Contact
+
+entity Friends
 {
-friendName String,
-contactMail String,
-contactNumber Long,
-immidiateFriend Boolean
+//friendName String,
+//contactMail String,
+//contactNumber Long,
+immediateFriend Boolean
+
 }
 
 entity File
@@ -60,19 +67,19 @@ attachments Blob
 }
 
 relationship OneToMany{
-Feed{actions} to Action,
-Feed{scopeOfFeed} to Reaction,
-Action{scopeOfActions} to Reaction,
-UserRegistration{comments} to Feed,
-Feed{file} to File
+UserFeed{actions} to Action{user},
+UserFeed{scopeOfFeed} to Reaction{feed},
+Action{scopeOfActions} to Reaction{action},
+UserRegistration{message} to UserFeed{user},
+UserFeed{file} to File
 }
-
+ 
 
 
 relationship ManyToMany
 {
-Feed{helpedFriends} to Contact,
-UserRegistration{emergencyContact} to Contact
+UserFeed{helpedFriends} to Friends,
+UserRegistration{friends} to Friends{users}
 }
 
 dto * with mapstruct

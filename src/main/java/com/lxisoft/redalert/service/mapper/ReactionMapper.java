@@ -8,7 +8,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Reaction and its DTO ReactionDTO.
  */
-@Mapper(componentModel = "spring", uses = {FeedMapper.class, ActionMapper.class})
+@Mapper(componentModel = "spring", uses = {UserFeedMapper.class, ActionMapper.class})
 public interface ReactionMapper extends EntityMapper<ReactionDTO, Reaction> {
 
     @Mapping(source = "feed.id", target = "feedId")

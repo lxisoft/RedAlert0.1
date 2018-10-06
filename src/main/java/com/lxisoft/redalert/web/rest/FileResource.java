@@ -31,7 +31,7 @@ public class FileResource {
 
     private final Logger log = LoggerFactory.getLogger(FileResource.class);
 
-    private static final String ENTITY_NAME = "file";
+    private static final String ENTITY_NAME = "redAlertFile";
 
     private final FileService fileService;
 
@@ -73,7 +73,7 @@ public class FileResource {
     public ResponseEntity<FileDTO> updateFile(@RequestBody FileDTO fileDTO) throws URISyntaxException {
         log.debug("REST request to update File : {}", fileDTO);
         if (fileDTO.getId() == null) {
-            return createFile(fileDTO);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         FileDTO result = fileService.save(fileDTO);
         return ResponseEntity.ok()
@@ -106,8 +106,8 @@ public class FileResource {
     @Timed
     public ResponseEntity<FileDTO> getFile(@PathVariable Long id) {
         log.debug("REST request to get File : {}", id);
-        FileDTO fileDTO = fileService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(fileDTO));
+        Optional<FileDTO> fileDTO = fileService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(fileDTO);
     }
 
     /**

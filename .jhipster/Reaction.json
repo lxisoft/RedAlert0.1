@@ -1,19 +1,5 @@
 {
-    "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipName": "feed",
-            "otherEntityName": "feed",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipName": "action",
-            "otherEntityName": "action",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        }
-    ],
+    "name": "Reaction",
     "fields": [
         {
             "fieldName": "userName",
@@ -25,11 +11,28 @@
             "fieldValues": "FAKE,VALID,SOLVED,PARTIALLY_SOLVED,NOT_SOLVED"
         }
     ],
-    "changelogDate": "20180925054409",
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "feed",
+            "otherEntityName": "userFeed",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "action",
+            "otherEntityName": "action",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181006072445",
     "entityTableName": "reaction",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "RedAlert",
+    "applications": "*",
     "microserviceName": "RedAlert"
 }

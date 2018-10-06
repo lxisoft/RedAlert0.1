@@ -1,9 +1,6 @@
 package com.lxisoft.redalert.service.dto;
 
-
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 import com.lxisoft.redalert.domain.enumeration.TypeOfReaction;
 
@@ -50,8 +47,8 @@ public class ReactionDTO implements Serializable {
         return feedId;
     }
 
-    public void setFeedId(Long feedId) {
-        this.feedId = feedId;
+    public void setFeedId(Long userFeedId) {
+        this.feedId = userFeedId;
     }
 
     public Long getActionId() {
@@ -72,7 +69,7 @@ public class ReactionDTO implements Serializable {
         }
 
         ReactionDTO reactionDTO = (ReactionDTO) o;
-        if(reactionDTO.getId() == null || getId() == null) {
+        if (reactionDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), reactionDTO.getId());
@@ -89,6 +86,8 @@ public class ReactionDTO implements Serializable {
             "id=" + getId() +
             ", userName='" + getUserName() + "'" +
             ", type='" + getType() + "'" +
+            ", feed=" + getFeedId() +
+            ", action=" + getActionId() +
             "}";
     }
 }

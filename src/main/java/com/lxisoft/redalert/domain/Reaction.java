@@ -1,5 +1,6 @@
 package com.lxisoft.redalert.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -29,9 +30,11 @@ public class Reaction implements Serializable {
     private TypeOfReaction type;
 
     @ManyToOne
-    private Feed feed;
+    @JsonIgnoreProperties("scopeOfFeeds")
+    private UserFeed feed;
 
     @ManyToOne
+    @JsonIgnoreProperties("scopeOfActions")
     private Action action;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -69,17 +72,17 @@ public class Reaction implements Serializable {
         this.type = type;
     }
 
-    public Feed getFeed() {
+    public UserFeed getFeed() {
         return feed;
     }
 
-    public Reaction feed(Feed feed) {
-        this.feed = feed;
+    public Reaction feed(UserFeed userFeed) {
+        this.feed = userFeed;
         return this;
     }
 
-    public void setFeed(Feed feed) {
-        this.feed = feed;
+    public void setFeed(UserFeed userFeed) {
+        this.feed = userFeed;
     }
 
     public Action getAction() {

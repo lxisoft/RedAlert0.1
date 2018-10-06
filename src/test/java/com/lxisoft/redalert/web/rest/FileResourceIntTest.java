@@ -27,6 +27,7 @@ import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+
 import static com.lxisoft.redalert.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -43,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FileResourceIntTest {
 
     private static final byte[] DEFAULT_ATTACHMENTS = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_ATTACHMENTS = TestUtil.createByteArray(2, "1");
+    private static final byte[] UPDATED_ATTACHMENTS = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_ATTACHMENTS_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_ATTACHMENTS_CONTENT_TYPE = "image/png";
 
@@ -52,7 +53,7 @@ public class FileResourceIntTest {
 
     @Autowired
     private FileMapper fileMapper;
-
+    
     @Autowired
     private FileService fileService;
 
@@ -155,7 +156,7 @@ public class FileResourceIntTest {
             .andExpect(jsonPath("$.[*].attachmentsContentType").value(hasItem(DEFAULT_ATTACHMENTS_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].attachments").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENTS))));
     }
-
+    
     @Test
     @Transactional
     public void getFile() throws Exception {
@@ -184,10 +185,11 @@ public class FileResourceIntTest {
     public void updateFile() throws Exception {
         // Initialize the database
         fileRepository.saveAndFlush(file);
+
         int databaseSizeBeforeUpdate = fileRepository.findAll().size();
 
         // Update the file
-        File updatedFile = fileRepository.findOne(file.getId());
+        File updatedFile = fileRepository.findById(file.getId()).get();
         // Disconnect from session so that the updates on updatedFile are not directly saved in db
         em.detach(updatedFile);
         updatedFile
@@ -216,15 +218,15 @@ public class FileResourceIntTest {
         // Create the File
         FileDTO fileDTO = fileMapper.toDto(file);
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFileMockMvc.perform(put("/api/files")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(fileDTO)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the File in the database
         List<File> fileList = fileRepository.findAll();
-        assertThat(fileList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(fileList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -232,6 +234,7 @@ public class FileResourceIntTest {
     public void deleteFile() throws Exception {
         // Initialize the database
         fileRepository.saveAndFlush(file);
+
         int databaseSizeBeforeDelete = fileRepository.findAll().size();
 
         // Get the file

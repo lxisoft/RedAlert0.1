@@ -7,10 +7,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 	
-    <title>Getting Started: Serving Web Content</title>
+    <title>HOME</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 		<title>Industrious by TEMPLATED</title>
+		 <!-- Font Awesome -->
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		  <!-- Bootstrap core CSS -->
+		  <link href="css/bootstrap.min.css" rel="stylesheet">
+		  <!-- Material Design Bootstrap -->
+		  <link href="css/mdb.min.css" rel="stylesheet">
+		  <!-- Your custom styles (optional) -->
+		  <link href="css/style.css" rel="stylesheet">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
@@ -26,7 +34,7 @@
 
 		<!-- Header -->
 			<header id="header">
-				<a class="logo" href="index.html">REDALERT</a>
+				<a class="logo" href="index.html">RedAlert</a>
 				<nav>
 					<a href="#menu">Menu</a>
 				</nav>
@@ -35,42 +43,41 @@
 		<!-- Nav -->
 			<nav id="menu">
 				<ul class="links">
-					<li><a href="#">Home</a></li>
-					<li><a href="#">NeswFeed</a></li>
-					<li><a href="#">contacts</a></li>
+					<li><a href="index.html">Home</a></li>
+					<li><a href="news.html">NewsFeed</a></li>
+					<li><a href="contacts.html">Contacts</a></li>
 				</ul>
 			</nav>
 
 		<!-- Banner -->
-			<section id="banner">
-				<div class="inner">
-					<!--<h1>RedAlert</h1><br/>-->
-					<p></p>
-		<h1>WELCOME</h1>	
-		
-				
- <p th:text="'Hello, ' + ${userreg2.firstName} + ${userreg2.lastName}" />
-    
-					<form action="RedAlert" method="post">
-		<input type="hidden" th:value="RED_ALERT"  name="alert" > 
-            <button class="button" type="submit">RED</button>
-           
-           </form>
-
-            <form action="orangeAlert"  method="post">
-            <input type="hidden"  th:value="ORANGE_ALERT" name="alert" > 
-           <button class="button" type="submit">ORANGE</button>
-           </form>
-
-
-         <form action="GreenAlert"  method="post">
-         <input type="hidden"  th:value="GREEN_ALERT" name="alert" > 
-           <button class="button" type="submit">GREEN</button>
-          </form>
+				<div id="heading">
+					<div class="inner">
+						<h1>RedAlert Home</h1><br/>
+						<h2><strong>Welcome</strong></h2>	
+	 					<h3 th:text="'Hello'+${userreg2.firstName} + ' ' + ${userreg2.lastName}" />
+						<h3><strong>We stand beside you on your tough times</strong></h3>
+					</div>
 				</div>
+		<br/><br/><br/>
+		<center>		
+    
+				<form action="RedAlert" method="post">
+					<input type="hidden" th:value="RED_ALERT"  name="alert" > 
+		           	<button type="button" class="btn btn-danger">RED</button>
+		        </form>
+
+		        <form action="orangeAlert"  method="post">
+		            <input type="hidden"  th:value="ORANGE_ALERT" name="alert" > 
+		            <button type="button" class="btn btn-warning">ORANGE</button>
+		        </form>
+
+
+		        <form action="GreenAlert"  method="post">
+		        	<input type="hidden"  th:value="GREEN_ALERT" name="alert" > 
+		         	<button type="button" class="btn btn-success">GREEN</button>
+		       	</form>
 				<img scr="RedAlert.jpg">
-				
-		</section>
+		</center>		
 			
 <!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>

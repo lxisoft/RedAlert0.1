@@ -1,6 +1,7 @@
 package com.lxisoft.redalert.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -41,12 +42,12 @@ public class Action implements Serializable {
     @Column(name = "created_time")
     private Instant createdTime;
 
-    @ManyToOne
-    private Feed feed;
-
     @OneToMany(mappedBy = "action")
-    @JsonIgnore
     private Set<Reaction> scopeOfActions = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties("actions")
+    private UserFeed user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -122,19 +123,6 @@ public class Action implements Serializable {
         this.createdTime = createdTime;
     }
 
-    public Feed getFeed() {
-        return feed;
-    }
-
-    public Action feed(Feed feed) {
-        this.feed = feed;
-        return this;
-    }
-
-    public void setFeed(Feed feed) {
-        this.feed = feed;
-    }
-
     public Set<Reaction> getScopeOfActions() {
         return scopeOfActions;
     }
@@ -158,6 +146,19 @@ public class Action implements Serializable {
 
     public void setScopeOfActions(Set<Reaction> reactions) {
         this.scopeOfActions = reactions;
+    }
+
+    public UserFeed getUser() {
+        return user;
+    }
+
+    public Action user(UserFeed userFeed) {
+        this.user = userFeed;
+        return this;
+    }
+
+    public void setUser(UserFeed userFeed) {
+        this.user = userFeed;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -190,6 +191,6 @@ public class Action implements Serializable {
             ", type='" + getType() + "'" +
             ", requestApproval='" + isRequestApproval() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
-            "feeds="+getFeed()+"}";
+            "}";
     }
 }

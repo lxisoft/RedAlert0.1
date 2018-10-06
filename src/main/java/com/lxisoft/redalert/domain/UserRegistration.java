@@ -38,23 +38,33 @@ public class UserRegistration implements Serializable {
     @Column(name = "jhi_password")
     private String password;
 
-    @Column(name = "confirm_password")
-    private String confirmPassword;
-
     @Column(name = "blood_group")
     private String bloodGroup;
+
+    @Lob
+    @Column(name = "user_image")
+    private byte[] userImage;
+
+    @Column(name = "user_image_content_type")
+    private String userImageContentType;
+
+    @Column(name = "points")
+    private Long points;
+
+    @Column(name = "date_of_bith")
+    private Instant dateOfBith;
 
     @Column(name = "created_time")
     private Instant createdTime;
 
-    @OneToMany(mappedBy = "userRegistration")
-    private Set<Feed> comments = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<UserFeed> messages = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "user_registration_emergency_contact",
+    @JoinTable(name = "user_registration_friends",
                joinColumns = @JoinColumn(name = "user_registrations_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "emergency_contacts_id", referencedColumnName = "id"))
-    private Set<Contact> emergencyContacts = new HashSet<>();
+               inverseJoinColumns = @JoinColumn(name = "friends_id", referencedColumnName = "id"))
+    private Set<Friends> friends = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -130,19 +140,6 @@ public class UserRegistration implements Serializable {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public UserRegistration confirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-        return this;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
     public String getBloodGroup() {
         return bloodGroup;
     }
@@ -154,6 +151,58 @@ public class UserRegistration implements Serializable {
 
     public void setBloodGroup(String bloodGroup) {
         this.bloodGroup = bloodGroup;
+    }
+
+    public byte[] getUserImage() {
+        return userImage;
+    }
+
+    public UserRegistration userImage(byte[] userImage) {
+        this.userImage = userImage;
+        return this;
+    }
+
+    public void setUserImage(byte[] userImage) {
+        this.userImage = userImage;
+    }
+
+    public String getUserImageContentType() {
+        return userImageContentType;
+    }
+
+    public UserRegistration userImageContentType(String userImageContentType) {
+        this.userImageContentType = userImageContentType;
+        return this;
+    }
+
+    public void setUserImageContentType(String userImageContentType) {
+        this.userImageContentType = userImageContentType;
+    }
+
+    public Long getPoints() {
+        return points;
+    }
+
+    public UserRegistration points(Long points) {
+        this.points = points;
+        return this;
+    }
+
+    public void setPoints(Long points) {
+        this.points = points;
+    }
+
+    public Instant getDateOfBith() {
+        return dateOfBith;
+    }
+
+    public UserRegistration dateOfBith(Instant dateOfBith) {
+        this.dateOfBith = dateOfBith;
+        return this;
+    }
+
+    public void setDateOfBith(Instant dateOfBith) {
+        this.dateOfBith = dateOfBith;
     }
 
     public Instant getCreatedTime() {
@@ -169,52 +218,54 @@ public class UserRegistration implements Serializable {
         this.createdTime = createdTime;
     }
 
-    public Set<Feed> getComments() {
-        return comments;
+    public Set<UserFeed> getMessages() {
+        return messages;
     }
 
-    public UserRegistration comments(Set<Feed> feeds) {
-        this.comments = feeds;
+    public UserRegistration messages(Set<UserFeed> userFeeds) {
+        this.messages = userFeeds;
         return this;
     }
 
-    public UserRegistration addComments(Feed feed) {
-        this.comments.add(feed);
-        feed.setUserRegistration(this);
+    public UserRegistration addMessage(UserFeed userFeed) {
+        this.messages.add(userFeed);
+        userFeed.setUser(this);
         return this;
     }
 
-    public UserRegistration removeComments(Feed feed) {
-        this.comments.remove(feed);
-        feed.setUserRegistration(null);
+    public UserRegistration removeMessage(UserFeed userFeed) {
+        this.messages.remove(userFeed);
+        userFeed.setUser(null);
         return this;
     }
 
-    public void setComments(Set<Feed> feeds) {
-        this.comments = feeds;
+    public void setMessages(Set<UserFeed> userFeeds) {
+        this.messages = userFeeds;
     }
 
-    public Set<Contact> getEmergencyContacts() {
-        return emergencyContacts;
+    public Set<Friends> getFriends() {
+        return friends;
     }
 
-    public UserRegistration emergencyContacts(Set<Contact> contacts) {
-        this.emergencyContacts = contacts;
+    public UserRegistration friends(Set<Friends> friends) {
+        this.friends = friends;
         return this;
     }
 
-    public UserRegistration addEmergencyContact(Contact contact) {
-        this.emergencyContacts.add(contact);
+    public UserRegistration addFriends(Friends friends) {
+        this.friends.add(friends);
+        friends.getUsers().add(this);
         return this;
     }
 
-    public UserRegistration removeEmergencyContact(Contact contact) {
-        this.emergencyContacts.remove(contact);
+    public UserRegistration removeFriends(Friends friends) {
+        this.friends.remove(friends);
+        friends.getUsers().remove(this);
         return this;
     }
 
-    public void setEmergencyContacts(Set<Contact> contacts) {
-        this.emergencyContacts = contacts;
+    public void setFriends(Set<Friends> friends) {
+        this.friends = friends;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -247,14 +298,12 @@ public class UserRegistration implements Serializable {
             ", phone=" + getPhone() +
             ", email='" + getEmail() + "'" +
             ", password='" + getPassword() + "'" +
-            ", confirmPassword='" + getConfirmPassword() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +
+            ", userImage='" + getUserImage() + "'" +
+            ", userImageContentType='" + getUserImageContentType() + "'" +
+            ", points=" + getPoints() +
+            ", dateOfBith='" + getDateOfBith() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
             "}";
     }
-
-	public UserRegistration get() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

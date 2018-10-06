@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the UserRegistration entity.
@@ -23,13 +24,19 @@ public class UserRegistrationDTO implements Serializable {
 
     private String password;
 
-    private String confirmPassword;
-
     private String bloodGroup;
+
+    @Lob
+    private byte[] userImage;
+    private String userImageContentType;
+
+    private Long points;
+
+    private Instant dateOfBith;
 
     private Instant createdTime;
 
-    private Set<ContactDTO> emergencyContacts = new HashSet<>();
+    private Set<FriendsDTO> friends = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -79,20 +86,44 @@ public class UserRegistrationDTO implements Serializable {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
     public String getBloodGroup() {
         return bloodGroup;
     }
 
     public void setBloodGroup(String bloodGroup) {
         this.bloodGroup = bloodGroup;
+    }
+
+    public byte[] getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(byte[] userImage) {
+        this.userImage = userImage;
+    }
+
+    public String getUserImageContentType() {
+        return userImageContentType;
+    }
+
+    public void setUserImageContentType(String userImageContentType) {
+        this.userImageContentType = userImageContentType;
+    }
+
+    public Long getPoints() {
+        return points;
+    }
+
+    public void setPoints(Long points) {
+        this.points = points;
+    }
+
+    public Instant getDateOfBith() {
+        return dateOfBith;
+    }
+
+    public void setDateOfBith(Instant dateOfBith) {
+        this.dateOfBith = dateOfBith;
     }
 
     public Instant getCreatedTime() {
@@ -103,12 +134,12 @@ public class UserRegistrationDTO implements Serializable {
         this.createdTime = createdTime;
     }
 
-    public Set<ContactDTO> getEmergencyContacts() {
-        return emergencyContacts;
+    public Set<FriendsDTO> getFriends() {
+        return friends;
     }
 
-    public void setEmergencyContacts(Set<ContactDTO> contacts) {
-        this.emergencyContacts = contacts;
+    public void setFriends(Set<FriendsDTO> friends) {
+        this.friends = friends;
     }
 
     @Override
@@ -141,8 +172,10 @@ public class UserRegistrationDTO implements Serializable {
             ", phone=" + getPhone() +
             ", email='" + getEmail() + "'" +
             ", password='" + getPassword() + "'" +
-            ", confirmPassword='" + getConfirmPassword() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +
+            ", userImage='" + getUserImage() + "'" +
+            ", points=" + getPoints() +
+            ", dateOfBith='" + getDateOfBith() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
             "}";
     }

@@ -7,12 +7,14 @@ import com.lxisoft.redalert.service.dto.FileDTO;
 import com.lxisoft.redalert.service.mapper.FileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Optional;
 /**
  * Service Implementation for managing File.
  */
@@ -59,6 +61,7 @@ public class FileServiceImpl implements FileService {
             .map(fileMapper::toDto);
     }
 
+
     /**
      * Get one file by id.
      *
@@ -67,10 +70,10 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     @Transactional(readOnly = true)
-    public FileDTO findOne(Long id) {
+    public Optional<FileDTO> findOne(Long id) {
         log.debug("Request to get File : {}", id);
-        File file = fileRepository.findOne(id);
-        return fileMapper.toDto(file);
+        return fileRepository.findById(id)
+            .map(fileMapper::toDto);
     }
 
     /**
@@ -81,12 +84,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete File : {}", id);
-        fileRepository.delete(id);
+        fileRepository.deleteById(id);
     }
-
-	@Override
-	public FileDTO save(byte[] attachments) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

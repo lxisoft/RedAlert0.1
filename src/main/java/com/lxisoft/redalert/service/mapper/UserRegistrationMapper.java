@@ -8,11 +8,11 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity UserRegistration and its DTO UserRegistrationDTO.
  */
-@Mapper(componentModel = "spring", uses = {ContactMapper.class})
+@Mapper(componentModel = "spring", uses = {FriendsMapper.class})
 public interface UserRegistrationMapper extends EntityMapper<UserRegistrationDTO, UserRegistration> {
 
 
-    @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "messages", ignore = true)
     UserRegistration toEntity(UserRegistrationDTO userRegistrationDTO);
 
     default UserRegistration fromId(Long id) {

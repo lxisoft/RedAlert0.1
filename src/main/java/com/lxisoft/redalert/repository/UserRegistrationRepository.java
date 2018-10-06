@@ -17,18 +17,14 @@ import java.util.Optional;
 @Repository
 public interface UserRegistrationRepository extends JpaRepository<UserRegistration, Long> {
 
-    @Query(value = "select distinct user_registration from UserRegistration user_registration left join fetch user_registration.emergencyContacts",
+    @Query(value = "select distinct user_registration from UserRegistration user_registration left join fetch user_registration.friends",
         countQuery = "select count(distinct user_registration) from UserRegistration user_registration")
     Page<UserRegistration> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query(value = "select distinct user_registration from UserRegistration user_registration left join fetch user_registration.emergencyContacts")
+    @Query(value = "select distinct user_registration from UserRegistration user_registration left join fetch user_registration.friends")
     List<UserRegistration> findAllWithEagerRelationships();
 
-    @Query("select user_registration from UserRegistration user_registration left join fetch user_registration.emergencyContacts where user_registration.id =:id")
+    @Query("select user_registration from UserRegistration user_registration left join fetch user_registration.friends where user_registration.id =:id")
     Optional<UserRegistration> findOneWithEagerRelationships(@Param("id") Long id);
-
-	void deleteById(Long id);
-
-	Object findById(Long id);
 
 }

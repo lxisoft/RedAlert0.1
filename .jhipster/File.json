@@ -1,13 +1,5 @@
 {
-    "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipName": "feed",
-            "otherEntityName": "feed",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        }
-    ],
+    "name": "File",
     "fields": [
         {
             "fieldName": "attachments",
@@ -15,11 +7,22 @@
             "fieldTypeBlobContent": "any"
         }
     ],
-    "changelogDate": "20180925054412",
+    "relationships": [
+        {
+            "relationshipName": "userFeed",
+            "otherEntityName": "userFeed",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181006072448",
     "entityTableName": "file",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "RedAlert",
+    "applications": "*",
     "microserviceName": "RedAlert"
 }

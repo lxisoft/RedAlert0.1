@@ -1,10 +1,7 @@
 package com.lxisoft.redalert.service.dto;
 
-
 import java.time.Instant;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 import com.lxisoft.redalert.domain.enumeration.ActionType;
 
@@ -25,7 +22,7 @@ public class ActionDTO implements Serializable {
 
     private Instant createdTime;
 
-    private Long feedId;
+    private String userId;
 
     public Long getId() {
         return id;
@@ -75,12 +72,12 @@ public class ActionDTO implements Serializable {
         this.createdTime = createdTime;
     }
 
-    public Long getFeedId() {
-        return feedId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setFeedId(Long feedId) {
-        this.feedId = feedId;
+    public void setUserId(String userFeedId) {
+        this.userId = userFeedId;
     }
 
     @Override
@@ -93,7 +90,7 @@ public class ActionDTO implements Serializable {
         }
 
         ActionDTO actionDTO = (ActionDTO) o;
-        if(actionDTO.getId() == null || getId() == null) {
+        if (actionDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), actionDTO.getId());
@@ -113,6 +110,7 @@ public class ActionDTO implements Serializable {
             ", type='" + getType() + "'" +
             ", requestApproval='" + isRequestApproval() + "'" +
             ", createdTime='" + getCreatedTime() + "'" +
+            ", user='" + getUserId() + "'" +
             "}";
     }
 }

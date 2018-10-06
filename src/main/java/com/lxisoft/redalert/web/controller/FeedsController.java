@@ -1,17 +1,12 @@
 package com.lxisoft.redalert.web.controller;
 
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Set;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.codahale.metrics.annotation.Timed;
@@ -19,21 +14,19 @@ import com.lxisoft.redalert.domain.Action;
 import com.lxisoft.redalert.domain.Feed;
 import com.lxisoft.redalert.repository.ActionRepository;
 import com.lxisoft.redalert.repository.FeedRepository;
-import com.lxisoft.redalert.service.dto.FeedDTO;
 import com.lxisoft.redalert.service.mapper.FeedMapper;
-import com.lxisoft.redalert.web.rest.errors.BadRequestAlertException;
-import com.lxisoft.redalert.web.rest.util.HeaderUtil;
+
 
 
 @Controller
-@RequestMapping("/feeds")
-public class FeedController {
+@RequestMapping("/newsfeed")
+public class FeedsController {
 	
 	private FeedRepository feedRepository;
 	private FeedMapper feedMapper;
 	private ActionRepository actionRepository;
 
-	public FeedController(FeedRepository feedRepository, ActionRepository actionRepository) {
+	public FeedsController(FeedRepository feedRepository, ActionRepository actionRepository) {
         this.feedRepository = feedRepository;
         this.actionRepository=actionRepository;
     }

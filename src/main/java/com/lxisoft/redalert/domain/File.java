@@ -1,5 +1,6 @@
 package com.lxisoft.redalert.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -27,7 +28,8 @@ public class File implements Serializable {
     private String attachmentsContentType;
 
     @ManyToOne
-    private Feed feed;
+    @JsonIgnoreProperties("files")
+    private UserFeed userFeed;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -64,17 +66,17 @@ public class File implements Serializable {
         this.attachmentsContentType = attachmentsContentType;
     }
 
-    public Feed getFeed() {
-        return feed;
+    public UserFeed getUserFeed() {
+        return userFeed;
     }
 
-    public File feed(Feed feed) {
-        this.feed = feed;
+    public File userFeed(UserFeed userFeed) {
+        this.userFeed = userFeed;
         return this;
     }
 
-    public void setFeed(Feed feed) {
-        this.feed = feed;
+    public void setUserFeed(UserFeed userFeed) {
+        this.userFeed = userFeed;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

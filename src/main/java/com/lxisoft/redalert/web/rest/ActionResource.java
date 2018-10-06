@@ -31,7 +31,7 @@ public class ActionResource {
 
     private final Logger log = LoggerFactory.getLogger(ActionResource.class);
 
-    private static final String ENTITY_NAME = "action";
+    private static final String ENTITY_NAME = "redAlertAction";
 
     private final ActionService actionService;
 
@@ -73,7 +73,7 @@ public class ActionResource {
     public ResponseEntity<ActionDTO> updateAction(@RequestBody ActionDTO actionDTO) throws URISyntaxException {
         log.debug("REST request to update Action : {}", actionDTO);
         if (actionDTO.getId() == null) {
-            return createAction(actionDTO);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ActionDTO result = actionService.save(actionDTO);
         return ResponseEntity.ok()
@@ -106,8 +106,8 @@ public class ActionResource {
     @Timed
     public ResponseEntity<ActionDTO> getAction(@PathVariable Long id) {
         log.debug("REST request to get Action : {}", id);
-        ActionDTO actionDTO = actionService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(actionDTO));
+        Optional<ActionDTO> actionDTO = actionService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(actionDTO);
     }
 
     /**

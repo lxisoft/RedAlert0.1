@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
@@ -64,11 +65,19 @@ public class UserRegistrationResourceIntTest {
     private static final String DEFAULT_PASSWORD = "AAAAAAAAAA";
     private static final String UPDATED_PASSWORD = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CONFIRM_PASSWORD = "AAAAAAAAAA";
-    private static final String UPDATED_CONFIRM_PASSWORD = "BBBBBBBBBB";
-
     private static final String DEFAULT_BLOOD_GROUP = "AAAAAAAAAA";
     private static final String UPDATED_BLOOD_GROUP = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_USER_IMAGE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_USER_IMAGE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_USER_IMAGE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_USER_IMAGE_CONTENT_TYPE = "image/png";
+
+    private static final Long DEFAULT_POINTS = 1L;
+    private static final Long UPDATED_POINTS = 2L;
+
+    private static final Instant DEFAULT_DATE_OF_BITH = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE_OF_BITH = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Instant DEFAULT_CREATED_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_CREATED_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -129,8 +138,11 @@ public class UserRegistrationResourceIntTest {
             .phone(DEFAULT_PHONE)
             .email(DEFAULT_EMAIL)
             .password(DEFAULT_PASSWORD)
-            .confirmPassword(DEFAULT_CONFIRM_PASSWORD)
             .bloodGroup(DEFAULT_BLOOD_GROUP)
+            .userImage(DEFAULT_USER_IMAGE)
+            .userImageContentType(DEFAULT_USER_IMAGE_CONTENT_TYPE)
+            .points(DEFAULT_POINTS)
+            .dateOfBith(DEFAULT_DATE_OF_BITH)
             .createdTime(DEFAULT_CREATED_TIME);
         return userRegistration;
     }
@@ -161,8 +173,11 @@ public class UserRegistrationResourceIntTest {
         assertThat(testUserRegistration.getPhone()).isEqualTo(DEFAULT_PHONE);
         assertThat(testUserRegistration.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testUserRegistration.getPassword()).isEqualTo(DEFAULT_PASSWORD);
-        assertThat(testUserRegistration.getConfirmPassword()).isEqualTo(DEFAULT_CONFIRM_PASSWORD);
         assertThat(testUserRegistration.getBloodGroup()).isEqualTo(DEFAULT_BLOOD_GROUP);
+        assertThat(testUserRegistration.getUserImage()).isEqualTo(DEFAULT_USER_IMAGE);
+        assertThat(testUserRegistration.getUserImageContentType()).isEqualTo(DEFAULT_USER_IMAGE_CONTENT_TYPE);
+        assertThat(testUserRegistration.getPoints()).isEqualTo(DEFAULT_POINTS);
+        assertThat(testUserRegistration.getDateOfBith()).isEqualTo(DEFAULT_DATE_OF_BITH);
         assertThat(testUserRegistration.getCreatedTime()).isEqualTo(DEFAULT_CREATED_TIME);
     }
 
@@ -202,8 +217,11 @@ public class UserRegistrationResourceIntTest {
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE.intValue())))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
             .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD.toString())))
-            .andExpect(jsonPath("$.[*].confirmPassword").value(hasItem(DEFAULT_CONFIRM_PASSWORD.toString())))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP.toString())))
+            .andExpect(jsonPath("$.[*].userImageContentType").value(hasItem(DEFAULT_USER_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].userImage").value(hasItem(Base64Utils.encodeToString(DEFAULT_USER_IMAGE))))
+            .andExpect(jsonPath("$.[*].points").value(hasItem(DEFAULT_POINTS.intValue())))
+            .andExpect(jsonPath("$.[*].dateOfBith").value(hasItem(DEFAULT_DATE_OF_BITH.toString())))
             .andExpect(jsonPath("$.[*].createdTime").value(hasItem(DEFAULT_CREATED_TIME.toString())));
     }
     
@@ -254,8 +272,11 @@ public class UserRegistrationResourceIntTest {
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE.intValue()))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()))
             .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD.toString()))
-            .andExpect(jsonPath("$.confirmPassword").value(DEFAULT_CONFIRM_PASSWORD.toString()))
             .andExpect(jsonPath("$.bloodGroup").value(DEFAULT_BLOOD_GROUP.toString()))
+            .andExpect(jsonPath("$.userImageContentType").value(DEFAULT_USER_IMAGE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.userImage").value(Base64Utils.encodeToString(DEFAULT_USER_IMAGE)))
+            .andExpect(jsonPath("$.points").value(DEFAULT_POINTS.intValue()))
+            .andExpect(jsonPath("$.dateOfBith").value(DEFAULT_DATE_OF_BITH.toString()))
             .andExpect(jsonPath("$.createdTime").value(DEFAULT_CREATED_TIME.toString()));
     }
 
@@ -276,7 +297,7 @@ public class UserRegistrationResourceIntTest {
         int databaseSizeBeforeUpdate = userRegistrationRepository.findAll().size();
 
         // Update the userRegistration
-        UserRegistration updatedUserRegistration = (( UserRegistration) userRegistrationRepository.findById(userRegistration.getId())).get();
+        UserRegistration updatedUserRegistration = userRegistrationRepository.findById(userRegistration.getId()).get();
         // Disconnect from session so that the updates on updatedUserRegistration are not directly saved in db
         em.detach(updatedUserRegistration);
         updatedUserRegistration
@@ -285,8 +306,11 @@ public class UserRegistrationResourceIntTest {
             .phone(UPDATED_PHONE)
             .email(UPDATED_EMAIL)
             .password(UPDATED_PASSWORD)
-            .confirmPassword(UPDATED_CONFIRM_PASSWORD)
             .bloodGroup(UPDATED_BLOOD_GROUP)
+            .userImage(UPDATED_USER_IMAGE)
+            .userImageContentType(UPDATED_USER_IMAGE_CONTENT_TYPE)
+            .points(UPDATED_POINTS)
+            .dateOfBith(UPDATED_DATE_OF_BITH)
             .createdTime(UPDATED_CREATED_TIME);
         UserRegistrationDTO userRegistrationDTO = userRegistrationMapper.toDto(updatedUserRegistration);
 
@@ -304,8 +328,11 @@ public class UserRegistrationResourceIntTest {
         assertThat(testUserRegistration.getPhone()).isEqualTo(UPDATED_PHONE);
         assertThat(testUserRegistration.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testUserRegistration.getPassword()).isEqualTo(UPDATED_PASSWORD);
-        assertThat(testUserRegistration.getConfirmPassword()).isEqualTo(UPDATED_CONFIRM_PASSWORD);
         assertThat(testUserRegistration.getBloodGroup()).isEqualTo(UPDATED_BLOOD_GROUP);
+        assertThat(testUserRegistration.getUserImage()).isEqualTo(UPDATED_USER_IMAGE);
+        assertThat(testUserRegistration.getUserImageContentType()).isEqualTo(UPDATED_USER_IMAGE_CONTENT_TYPE);
+        assertThat(testUserRegistration.getPoints()).isEqualTo(UPDATED_POINTS);
+        assertThat(testUserRegistration.getDateOfBith()).isEqualTo(UPDATED_DATE_OF_BITH);
         assertThat(testUserRegistration.getCreatedTime()).isEqualTo(UPDATED_CREATED_TIME);
     }
 

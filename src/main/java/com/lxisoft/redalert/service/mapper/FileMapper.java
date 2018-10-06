@@ -8,13 +8,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity File and its DTO FileDTO.
  */
-@Mapper(componentModel = "spring", uses = {FeedMapper.class})
+@Mapper(componentModel = "spring", uses = {UserFeedMapper.class})
 public interface FileMapper extends EntityMapper<FileDTO, File> {
 
-    @Mapping(source = "feed.id", target = "feedId")
+    @Mapping(source = "userFeed.id", target = "userFeedId")
     FileDTO toDto(File file);
 
-    @Mapping(source = "feedId", target = "feed")
+    @Mapping(source = "userFeedId", target = "userFeed")
     File toEntity(FileDTO fileDTO);
 
     default File fromId(Long id) {

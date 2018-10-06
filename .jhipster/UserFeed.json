@@ -1,0 +1,82 @@
+{
+    "name": "UserFeed",
+    "fields": [
+        {
+            "fieldName": "userName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "message",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "currentType",
+            "fieldType": "Alert",
+            "fieldValues": "RED_ALERT,ORANGE_ALERT,GREEN_ALERT"
+        },
+        {
+            "fieldName": "isValid",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "createdTime",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "actions",
+            "otherEntityName": "action",
+            "otherEntityRelationshipName": "user"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "scopeOfFeed",
+            "otherEntityName": "reaction",
+            "otherEntityRelationshipName": "feed"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "file",
+            "otherEntityName": "file",
+            "otherEntityRelationshipName": "userFeed"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "helpedFriends",
+            "otherEntityName": "friends",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "userRegistration",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181006072443",
+    "entityTableName": "user_feed",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "RedAlert",
+    "applications": "*",
+    "microserviceName": "RedAlert"
+}

@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+
 import static com.lxisoft.redalert.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -53,7 +54,7 @@ public class ReactionResourceIntTest {
 
     @Autowired
     private ReactionMapper reactionMapper;
-
+    
     @Autowired
     private ReactionService reactionService;
 
@@ -156,7 +157,7 @@ public class ReactionResourceIntTest {
             .andExpect(jsonPath("$.[*].userName").value(hasItem(DEFAULT_USER_NAME.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getReaction() throws Exception {
@@ -185,10 +186,11 @@ public class ReactionResourceIntTest {
     public void updateReaction() throws Exception {
         // Initialize the database
         reactionRepository.saveAndFlush(reaction);
+
         int databaseSizeBeforeUpdate = reactionRepository.findAll().size();
 
         // Update the reaction
-        Reaction updatedReaction = reactionRepository.findOne(reaction.getId());
+        Reaction updatedReaction = reactionRepository.findById(reaction.getId()).get();
         // Disconnect from session so that the updates on updatedReaction are not directly saved in db
         em.detach(updatedReaction);
         updatedReaction
@@ -217,15 +219,15 @@ public class ReactionResourceIntTest {
         // Create the Reaction
         ReactionDTO reactionDTO = reactionMapper.toDto(reaction);
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restReactionMockMvc.perform(put("/api/reactions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(reactionDTO)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Reaction in the database
         List<Reaction> reactionList = reactionRepository.findAll();
-        assertThat(reactionList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(reactionList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -233,6 +235,7 @@ public class ReactionResourceIntTest {
     public void deleteReaction() throws Exception {
         // Initialize the database
         reactionRepository.saveAndFlush(reaction);
+
         int databaseSizeBeforeDelete = reactionRepository.findAll().size();
 
         // Get the reaction

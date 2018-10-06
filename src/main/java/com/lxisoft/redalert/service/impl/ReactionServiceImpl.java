@@ -7,12 +7,14 @@ import com.lxisoft.redalert.service.dto.ReactionDTO;
 import com.lxisoft.redalert.service.mapper.ReactionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Optional;
 /**
  * Service Implementation for managing Reaction.
  */
@@ -59,6 +61,7 @@ public class ReactionServiceImpl implements ReactionService {
             .map(reactionMapper::toDto);
     }
 
+
     /**
      * Get one reaction by id.
      *
@@ -67,10 +70,10 @@ public class ReactionServiceImpl implements ReactionService {
      */
     @Override
     @Transactional(readOnly = true)
-    public ReactionDTO findOne(Long id) {
+    public Optional<ReactionDTO> findOne(Long id) {
         log.debug("Request to get Reaction : {}", id);
-        Reaction reaction = reactionRepository.findOne(id);
-        return reactionMapper.toDto(reaction);
+        return reactionRepository.findById(id)
+            .map(reactionMapper::toDto);
     }
 
     /**
@@ -81,6 +84,6 @@ public class ReactionServiceImpl implements ReactionService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Reaction : {}", id);
-        reactionRepository.delete(id);
+        reactionRepository.deleteById(id);
     }
 }

@@ -31,7 +31,7 @@ public class ReactionResource {
 
     private final Logger log = LoggerFactory.getLogger(ReactionResource.class);
 
-    private static final String ENTITY_NAME = "reaction";
+    private static final String ENTITY_NAME = "redAlertReaction";
 
     private final ReactionService reactionService;
 
@@ -73,7 +73,7 @@ public class ReactionResource {
     public ResponseEntity<ReactionDTO> updateReaction(@RequestBody ReactionDTO reactionDTO) throws URISyntaxException {
         log.debug("REST request to update Reaction : {}", reactionDTO);
         if (reactionDTO.getId() == null) {
-            return createReaction(reactionDTO);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ReactionDTO result = reactionService.save(reactionDTO);
         return ResponseEntity.ok()
@@ -106,8 +106,8 @@ public class ReactionResource {
     @Timed
     public ResponseEntity<ReactionDTO> getReaction(@PathVariable Long id) {
         log.debug("REST request to get Reaction : {}", id);
-        ReactionDTO reactionDTO = reactionService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(reactionDTO));
+        Optional<ReactionDTO> reactionDTO = reactionService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(reactionDTO);
     }
 
     /**
